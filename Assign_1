@@ -1,0 +1,128 @@
+
+
+/*
+ * Node Structure of a Tree
+ */
+
+package sunny;
+
+
+public class TreeNode {
+	   public String data;  
+	   public TreeNode left, right;
+	   public TreeNode(String data) { 
+	      this.data = data;
+	      left = right = null;
+	   }
+}
+---------------------------------------------------------------------------------------------------------------------
+package sunny;
+
+import java.io.*;
+
+
+public class Tree {
+	private TreeNode root; 
+
+/*
+ * Read inout.txt file
+ */
+	public void readFile(){
+		String  thisLine = null;
+		try{
+	         
+	         BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+	         while ((thisLine = br.readLine()) != null) {
+	        	 insert(thisLine);
+	         }       
+	      }catch(Exception e){
+	         e.printStackTrace();
+	      }
+	}
+
+/*
+* Insert into the Binary Tree
+*/
+	   public void insert(String d) {
+	      if (root == null) {
+	         root = new TreeNode(d);
+	         return;
+	      }
+	      TreeNode loc = root; 
+	      while (true) {
+	         if (d.compareTo(loc.data) < 0) {
+	            if (loc.left != null) 
+	            	loc = loc.left;
+	            else { 
+	            	loc.left = new TreeNode(d);
+	            	break; 
+	            	}
+	         }
+	         else if (d.compareTo(loc.data) > 0) {
+	            if (loc.right != null) 
+	            	loc = loc.right;
+	            else {
+	            	loc.right = new TreeNode(d); 
+	            	break; }
+	         }
+	         else break; 
+	      }
+	   }
+
+/*
+ * Function to call inorder traversal 
+ */
+	   public void writeFile() {
+		   printFile(root);
+		   }
+
+/*
+ *  Print the tree and save to file
+ */
+	   private void printFile(TreeNode t) {
+	      if (t != null) {
+	    	  printFile(t.left);
+	         
+	    	  try{
+		         
+		         PrintWriter wr = new PrintWriter(new BufferedWriter(new FileWriter("output.txt",true)));
+		                wr.write(t.data + " ");
+		                wr.close();
+		                System.out.print(t.data + " ");
+		      }catch(Exception e){
+		         e.printStackTrace();
+		      }
+	         
+	         printFile(t.right);
+	      }
+	   }
+
+}
+-----------------------------------------------------------------------------------------------------------------------
+/*
+ * Main test class
+ */
+
+
+package sunny;
+
+import java.io.*;
+
+public class MainClass {
+	public static void main(String[] argv) throws Exception {
+		
+		Tree tree = new Tree();
+		
+/*
+ * Read from a file	      
+ */
+		
+		tree.readFile();
+			
+/*
+ * Sort & Store in new file		
+ */
+		tree.writeFile();
+		
+	}
+}
